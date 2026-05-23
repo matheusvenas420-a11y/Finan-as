@@ -1,0 +1,641 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F9FAFB"
+    android:id="@+id/telaPrincipal"
+    >
+
+    <!-- TOPBAR -->
+    <LinearLayout
+        android:id="@+id/topbar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="#FFFFFF"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:elevation="2dp">
+
+        <!-- Logo -->
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/bg_logo_rounded"
+            android:src="@drawable/ic_wallet"
+            android:padding="8dp"
+            android:tint="#FFFFFF"
+            android:contentDescription="Logo" />
+
+        <!-- Nome + subtítulo -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginStart="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fintrack"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="#111827" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Painel do casal"
+                android:textSize="12sp"
+                android:textColor="#6B7280" />
+        </LinearLayout>
+
+        <!-- Botão Sair -->
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@drawable/ic_arrow_back"
+            android:tint="#6B7280"
+            android:layout_marginEnd="4dp"
+            android:contentDescription="@null" />
+
+        <TextView
+            android:id="@+id/tvSair"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sair"
+            android:textSize="14sp"
+            android:textColor="#6B7280" />
+    </LinearLayout>
+
+    <!-- CONTEÚDO ROLÁVEL -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="60dp"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingTop="28dp"
+            android:paddingBottom="32dp">
+
+            <!-- Título da página -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Resumo de gastos"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="#111827"
+                android:layout_marginBottom="4dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Compare seu mês atual com o anterior e veja para onde foi o dinheiro."
+                android:textSize="14sp"
+                android:textColor="#6B7280"
+                android:lineSpacingExtra="3dp"
+                android:layout_marginBottom="24dp" />
+
+            <!-- ── Tabs: Gastos / Investimentos ── -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:background="@drawable/bg_tab_container"
+                android:orientation="horizontal"
+                android:padding="4dp"
+                android:layout_marginBottom="24dp">
+
+                <TextView
+                    android:id="@+id/tabGastos"
+                    android:layout_width="170dp"
+                    android:layout_height="match_parent"
+                    android:text="Gastos"
+                    android:gravity="center"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="#111827"
+                    android:background="@drawable/bg_tab_active" />
+
+                <TextView
+                    android:id="@+id/tabInvestimentos"
+                    android:layout_width="190dp"
+                    android:layout_height="match_parent"
+                    android:text="Investimentos"
+                    android:gravity="center"
+                    android:textSize="14sp"
+                    android:textColor="#6B7280"
+                    android:background="@android:color/transparent" />
+
+            </LinearLayout>
+
+            <!-- Cards de Resumo (3 cards em linha) -->
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none"
+                android:layout_marginBottom="20dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <!-- Card 1: Gasto neste mês -->
+                    <LinearLayout
+                        android:layout_width="189dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="12dp"
+                        android:background="@drawable/bg_card"
+                        android:orientation="vertical"
+                        android:padding="18dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:text="Gasto neste mês"
+                            android:textColor="#6B7280"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/tvGastoMesAtual"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:text="R$ ------"
+                            android:textColor="#111827"
+                            android:textSize="22sp"
+                            android:textStyle="bold" />
+
+                        <!-- Badge de percentual -->
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_badge_green_light"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingStart="8dp"
+                            android:paddingTop="4dp"
+                            android:paddingEnd="8dp"
+                            android:paddingBottom="4dp">
+
+                            <ImageView
+                                android:layout_width="12dp"
+                                android:layout_height="12dp"
+                                android:layout_marginEnd="4dp"
+                                android:contentDescription="@null"
+                                android:src="@drawable/ic_trending_down"
+                                android:tint="#10B981" />
+
+                            <TextView
+                                android:id="@+id/tvPercentual"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="--%"
+                                android:textColor="#10B981"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="vs mês passado"
+                            android:textColor="#6B7280"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <!-- Card 2: Gasto no mês passado -->
+                    <LinearLayout
+                        android:layout_width="220dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="12dp"
+                        android:background="@drawable/bg_card"
+                        android:orientation="vertical"
+                        android:padding="18dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:text="Gasto no mês passado"
+                            android:textColor="#6B7280"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/tvGastoMesPassado"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:text="R$ 5.120,30"
+                            android:textColor="#111827"
+                            android:textSize="22sp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Diferença de "
+                                android:textColor="#6B7280"
+                                android:textSize="13sp" />
+
+                            <TextView
+                                android:id="@+id/tvDiferenca"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="-R$ 832,80"
+                                android:textColor="#10B981"
+                                android:textSize="13sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- Card 3: Maior categoria -->
+                    <LinearLayout
+                        android:layout_width="220dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:background="@drawable/bg_card"
+                        android:padding="18dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Maior categoria"
+                            android:textSize="13sp"
+                            android:textColor="#6B7280"
+                            android:layout_marginBottom="8dp" />
+
+                        <TextView
+                            android:id="@+id/tvMaiorCategoria"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="R$ 1.450,00"
+                            android:textSize="22sp"
+                            android:textStyle="bold"
+                            android:textColor="#111827"
+                            android:layout_marginBottom="10dp" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical">
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:src="@drawable/ic_home"
+                                android:tint="#10B981"
+                                android:layout_marginEnd="6dp"
+                                android:contentDescription="@null" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Moradia"
+                                android:textSize="13sp"
+                                android:textStyle="bold"
+                                android:textColor="#111827" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=" · 34%"
+                                android:textSize="13sp"
+                                android:textColor="#6B7280" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <!-- Linha Inferior: categorias + distribuição -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- ── Card: Como foi gasto neste mês ── -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@drawable/bg_card"
+                    android:padding="20dp"
+                    android:layout_marginBottom="16dp">
+
+                    <!-- Cabeçalho do card -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="4dp">
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/ic_sparkles"
+                            android:tint="#10B981"
+                            android:layout_marginEnd="8dp"
+                            android:contentDescription="@null" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Como foi gasto neste mês"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:textColor="#111827" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Classificação por categoria — total de R$ 4.287,50"
+                        android:textSize="13sp"
+                        android:textColor="#6B7280"
+                        android:layout_marginBottom="20dp" />
+
+                    <!-- ── Item: Moradia ── -->
+                    <include layout="@layout/item_categoria"
+                        android:id="@+id/itemMoradia" />
+
+                    <!-- ── Item: Alimentação ── -->
+                    <include layout="@layout/item_categoria"
+                        android:id="@+id/itemAlimentacao" />
+
+                    <!-- ── Item: Transporte ── -->
+                    <include layout="@layout/item_categoria"
+                        android:id="@+id/itemTransporte" />
+
+                    <!-- ── Item: Compras ── -->
+                    <include layout="@layout/item_categoria"
+                        android:id="@+id/itemCompras" />
+
+                    <!-- ── Item: Lazer & Casal ── -->
+                    <include layout="@layout/item_categoria"
+                        android:id="@+id/itemLazer" />
+
+                    <!-- ── Item: Outros ── -->
+                    <include layout="@layout/item_categoria"
+                        android:id="@+id/itemOutros" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@drawable/bg_card"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Distribuição"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:textColor="#111827"
+                        android:layout_marginBottom="2dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Visão proporcional"
+                        android:textSize="12sp"
+                        android:textColor="#9CA3AF"
+                        android:layout_marginBottom="16dp" />
+
+                    <!-- Barra de distribuição empilhada -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="10dp"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="20dp">
+
+                        <!-- Moradia 33.8% -->
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="33"
+                            android:background="@drawable/bg_bar_green_full" />
+
+                        <!-- Alimentação 22.9% -->
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="23"
+                            android:background="#34D399" />
+
+                        <!-- Transporte 14.3% -->
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="14"
+                            android:background="#6EE7B7" />
+
+                        <!-- Compras 12.6% -->
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="13"
+                            android:background="#A7F3D0" />
+
+                        <!-- Lazer 9.6% -->
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="10"
+                            android:background="#D1FAE5" />
+
+                        <!-- Outros 6.9% -->
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="7"
+                            android:background="#E5E7EB" />
+                    </LinearLayout>
+
+                    <!-- Legenda: Moradia -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="10dp">
+
+                        <View
+                            android:layout_width="10dp"
+                            android:layout_height="10dp"
+                            android:background="@drawable/bg_dot_green"
+                            android:layout_marginEnd="10dp" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Moradia"
+                            android:textSize="13sp"
+                            android:textColor="#374151" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="33.8%"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
+                            android:textColor="#111827" />
+                    </LinearLayout>
+
+                    <!-- Legenda: Alimentação (sem dot = indentada) -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="10dp"
+                        android:paddingStart="20dp">
+
+
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Alimentação"
+                            android:textSize="13sp"
+                            android:textColor="#374151" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="22.9%"
+                            android:textSize="13sp"
+                            android:textColor="#6B7280" />
+                    </LinearLayout>
+
+                    <!-- Legenda: Transporte -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="10dp"
+                        android:paddingStart="20dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Transporte"
+                            android:textSize="13sp"
+                            android:textColor="#374151" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="14.3%"
+                            android:textSize="13sp"
+                            android:textColor="#6B7280" />
+                    </LinearLayout>
+
+                    <!-- Legenda: Compras -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="10dp"
+                        android:paddingStart="20dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Compras"
+                            android:textSize="13sp"
+                            android:textColor="#374151" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="12.6%"
+                            android:textSize="13sp"
+                            android:textColor="#6B7280" />
+                    </LinearLayout>
+
+                    <!-- Legenda: Lazer & Casal -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="10dp"
+                        android:paddingStart="20dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Lazer &amp; Casal"
+                            android:textSize="13sp"
+                            android:textColor="#374151" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="9.6%"
+                            android:textSize="13sp"
+                            android:textColor="#6B7280" />
+                    </LinearLayout>
+
+                    <!-- Legenda: Outros (com dot cinza) -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <View
+                            android:layout_width="10dp"
+                            android:layout_height="10dp"
+                            android:background="@drawable/bg_dot_gray"
+                            android:layout_marginEnd="10dp" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Outros"
+                            android:textSize="13sp"
+                            android:textColor="#374151" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="6.9%"
+                            android:textSize="13sp"
+                            android:textColor="#6B7280" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

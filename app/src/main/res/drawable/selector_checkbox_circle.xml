@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- res/drawable/selector_checkbox_circle.xml
+     Checkbox circular para "Manter-me conectado" -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="true"  android:drawable="@drawable/ic_checkbox_circle_on" />
+    <item android:state_checked="false" android:drawable="@drawable/ic_checkbox_circle_off" />
+</selector>

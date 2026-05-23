@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- res/drawable/bg_tab_container.xml
+     Pill de fundo das tabs -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="#DDE9E6" />
+    <corners android:radius="50dp" />
+</shape>

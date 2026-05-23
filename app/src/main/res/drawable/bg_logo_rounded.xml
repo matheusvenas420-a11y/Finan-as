@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- res/drawable/bg_logo_rounded.xml
+     Fundo do ícone do logo — retângulo verde com cantos arredondados -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="#10B981" />
+    <corners android:radius="14dp" />
+</shape>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- res/drawable/ic_wallet.xml — Ícone de carteira -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#000000"
+        android:pathData="M21,7H3C2.45,7 2,7.45 2,8V19C2,19.55 2.45,20 3,20H21C21.55,20 22,19.55 22,19V8C22,7.45 21.55,7 21,7Z" />
+    <path
+        android:fillColor="#000000"
+        android:pathData="M21,5H5C4.45,5 4,4.55 4,4H20C20,4 20.56,4.03 21,4.5V5Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M16,13.5C16,14.33 16.67,15 17.5,15C18.33,15 19,14.33 19,13.5C19,12.67 18.33,12 17.5,12C16.67,12 16,12.67 16,13.5Z" />
+</vector>
