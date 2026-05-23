@@ -27,7 +27,7 @@
             android:background="@drawable/bg_logo_rounded"
             android:src="@drawable/ic_wallet"
             android:padding="8dp"
-            android:tint="#FFFFFF"
+            app:tint="#FFFFFF"
             android:contentDescription="Logo" />
 
         <!-- Nome + subtítulo -->
@@ -59,9 +59,9 @@
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:src="@drawable/ic_arrow_back"
-            android:tint="#6B7280"
             android:layout_marginEnd="4dp"
-            android:contentDescription="@null" />
+            android:contentDescription="@null"
+            app:tint="#6B7280" />
 
         <TextView
             android:id="@+id/tvSair"
@@ -196,7 +196,7 @@
                                 android:layout_marginEnd="4dp"
                                 android:contentDescription="@null"
                                 android:src="@drawable/ic_trending_down"
-                                android:tint="#10B981" />
+                                app:tint="#10B981" />
 
                             <TextView
                                 android:id="@+id/tvPercentual"
@@ -303,7 +303,7 @@
                                 android:layout_width="16dp"
                                 android:layout_height="16dp"
                                 android:src="@drawable/ic_home"
-                                android:tint="#10B981"
+                                app:tint="#10B981"
                                 android:layout_marginEnd="6dp"
                                 android:contentDescription="@null" />
 
@@ -353,7 +353,7 @@
                             android:layout_width="18dp"
                             android:layout_height="18dp"
                             android:src="@drawable/ic_sparkles"
-                            android:tint="#10B981"
+                            app:tint="#10B981"
                             android:layout_marginEnd="8dp"
                             android:contentDescription="@null" />
 

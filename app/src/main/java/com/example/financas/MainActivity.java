@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
     private void irTelaPrincipal(View v){
         Intent i = new Intent(
                 MainActivity.this,
-                HomeActivity.class
+                PrincipalActivity.class
         );
         startActivity(i);
         finish();
