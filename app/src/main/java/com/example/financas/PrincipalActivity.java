@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.financas.model.Gasto;
 import com.example.financas.model.ResumoMensal;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -20,8 +21,10 @@ import com.google.firebase.firestore.ListenerRegistration;
 
 import java.text.NumberFormat;
 import java.util.Calendar;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -61,6 +64,7 @@ public class PrincipalActivity extends AppCompatActivity {
     private NumberFormat formatoMoeda;
     private double salarioMesAtual;
     private double totalGastosMesAtual;
+    private List<Gasto> gastosMesAtual = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -172,6 +176,7 @@ public class PrincipalActivity extends AppCompatActivity {
                     double totalMesPassado = 0;
                     boolean temGastoNoMesAtual = false;
                     Map<String, Double> totaisPorCategoria = criarMapaCategorias();
+                    List<Gasto> gastosDoMes = new ArrayList<>();
 
                     Date inicioMesAtual = obterInicioMes(0);
                     Date inicioProximoMes = obterInicioMes(1);
@@ -190,6 +195,7 @@ public class PrincipalActivity extends AppCompatActivity {
                             temGastoNoMesAtual = true;
                             totalMesAtual += valor;
                             somarCategoria(totaisPorCategoria, categoria, valor);
+                            gastosDoMes.add(criarGastoResumo(documento, valor, data, categoria));
                         } else if (data.compareTo(inicioMesPassado) >= 0 && data.compareTo(inicioMesAtual) < 0) {
                             totalMesPassado += valor;
                         }
@@ -201,8 +207,30 @@ public class PrincipalActivity extends AppCompatActivity {
                     }
 
                     mostrarEstadoComGastos();
+                    gastosMesAtual = gastosDoMes;
                     atualizarResumo(totalMesAtual, totalMesPassado, totaisPorCategoria);
                 });
+    }
+
+    private Gasto criarGastoResumo(DocumentSnapshot documento, double valor, Date data, String categoria) {
+        String descricao = documento.getString("descricao");
+        String formaPagamento = documento.getString("formaPagamento");
+        Long parcelas = documento.getLong("parcelas");
+        Long mes = documento.getLong("mes");
+        Long ano = documento.getLong("ano");
+        String mesAno = documento.getString("mesAno");
+
+        return new Gasto(
+                descricao != null ? descricao : "Gasto",
+                valor,
+                categoria != null ? categoria : "Outros",
+                formaPagamento != null ? formaPagamento : "",
+                parcelas != null ? parcelas.intValue() : 1,
+                data,
+                mes != null ? mes.intValue() : obterMesAtual(),
+                ano != null ? ano.intValue() : obterAnoAtual(),
+                mesAno != null ? mesAno : obterMesAnoAtual()
+        );
     }
 
     private void mostrarEstadoVazio() {
@@ -210,6 +238,7 @@ public class PrincipalActivity extends AppCompatActivity {
         resumoCards.setVisibility(View.GONE);
         secaoDetalhesGastos.setVisibility(View.GONE);
         totalGastosMesAtual = 0;
+        gastosMesAtual = new ArrayList<>();
         tvGastosMesTopbar.setText("Gastos: " + formatarMoeda(0));
         atualizarSaldoDisponivel();
     }
@@ -247,11 +276,17 @@ public class PrincipalActivity extends AppCompatActivity {
         return calendario.getTime();
     }
 
+    private int obterMesAtual() {
+        return Calendar.getInstance().get(Calendar.MONTH) + 1;
+    }
+
+    private int obterAnoAtual() {
+        return Calendar.getInstance().get(Calendar.YEAR);
+    }
+
     private String obterMesAnoAtual() {
         Calendar calendario = Calendar.getInstance();
-        int mes = calendario.get(Calendar.MONTH) + 1;
-        int ano = calendario.get(Calendar.YEAR);
-        return String.format(Locale.getDefault(), "%04d-%02d", ano, mes);
+        return String.format(Locale.getDefault(), "%04d-%02d", calendario.get(Calendar.YEAR), calendario.get(Calendar.MONTH) + 1);
     }
 
     private void atualizarResumo(
@@ -309,6 +344,7 @@ public class PrincipalActivity extends AppCompatActivity {
                 mes,
                 ano,
                 mesAno,
+                gastosMesAtual,
                 new Date()
         );
 

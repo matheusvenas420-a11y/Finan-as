@@ -1,6 +1,7 @@
 package com.example.financas.model;
 
 import java.util.Date;
+import java.util.List;
 
 public class ResumoMensal {
 
@@ -10,6 +11,7 @@ public class ResumoMensal {
     private int mes;
     private int ano;
     private String mesAno;
+    private List<Gasto> gastos;
     private Date atualizadoEm;
 
     public ResumoMensal() {
@@ -22,6 +24,7 @@ public class ResumoMensal {
             int mes,
             int ano,
             String mesAno,
+            List<Gasto> gastos,
             Date atualizadoEm
     ) {
         this.salario = salario;
@@ -30,6 +33,7 @@ public class ResumoMensal {
         this.mes = mes;
         this.ano = ano;
         this.mesAno = mesAno;
+        this.gastos = gastos;
         this.atualizadoEm = atualizadoEm;
     }
 
@@ -79,6 +83,14 @@ public class ResumoMensal {
 
     public void setMesAno(String mesAno) {
         this.mesAno = mesAno;
+    }
+
+    public List<Gasto> getGastos() {
+        return gastos;
+    }
+
+    public void setGastos(List<Gasto> gastos) {
+        this.gastos = gastos;
     }
 
     public Date getAtualizadoEm() {
