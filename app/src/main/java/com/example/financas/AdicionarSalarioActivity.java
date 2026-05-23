@@ -10,6 +10,7 @@ import android.widget.EditText;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.financas.model.Salario;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -17,9 +18,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 
 public class AdicionarSalarioActivity extends AppCompatActivity {
 
@@ -112,14 +111,9 @@ public class AdicionarSalarioActivity extends AppCompatActivity {
 
         int mes = calendario.get(Calendar.MONTH) + 1;
         int ano = calendario.get(Calendar.YEAR);
-        String mesAno = String.format("%04d-%02d", ano, mes);
+        String mesAno = String.format(Locale.getDefault(), "%04d-%02d", ano, mes);
 
-        Map<String, Object> salario = new HashMap<>();
-        salario.put("valor", valor);
-        salario.put("data", dataAtual);
-        salario.put("mes", mes);
-        salario.put("ano", ano);
-        salario.put("mesAno", mesAno);
+        Salario salario = new Salario(valor, dataAtual, mes, ano, mesAno);
 
         db.collection("usuarios")
                 .document(usuarioAtual.getUid())

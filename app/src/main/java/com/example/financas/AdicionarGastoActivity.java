@@ -14,6 +14,7 @@ import android.widget.Spinner;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.financas.model.Gasto;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -21,9 +22,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Date;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 
 public class AdicionarGastoActivity extends AppCompatActivity {
 
@@ -195,17 +194,19 @@ public class AdicionarGastoActivity extends AppCompatActivity {
 
         int mes = calendario.get(Calendar.MONTH) + 1;
         int ano = calendario.get(Calendar.YEAR);
+        String mesAno = String.format(Locale.getDefault(), "%04d-%02d", ano, mes);
 
-        Map<String, Object> gasto = new HashMap<>();
-        gasto.put("descricao", descricao);
-        gasto.put("valor", valor);
-        gasto.put("categoria", categoria);
-        gasto.put("formaPagamento", formaPagamento);
-        gasto.put("parcelas", parcelas);
-        gasto.put("data", dataAtual);
-        gasto.put("mes", mes);
-        gasto.put("ano", ano);
-        gasto.put("mesAno", String.format("%04d-%02d", ano, mes));
+        Gasto gasto = new Gasto(
+                descricao,
+                valor,
+                categoria,
+                formaPagamento,
+                parcelas,
+                dataAtual,
+                mes,
+                ano,
+                mesAno
+        );
 
         db.collection("usuarios")
                 .document(usuarioAtual.getUid())

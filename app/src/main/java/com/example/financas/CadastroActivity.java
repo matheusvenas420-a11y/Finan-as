@@ -14,12 +14,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.example.financas.model.Usuario;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class CadastroActivity extends AppCompatActivity {
 
@@ -105,10 +103,7 @@ public class CadastroActivity extends AppCompatActivity {
                                     .getCurrentUser()
                                     .getUid();
 
-                            Map<String, Object> usuario = new HashMap<>();
-
-                            usuario.put("nome", txtNome);
-                            usuario.put("email", txtEmail);
+                            Usuario usuario = new Usuario(txtNome, txtEmail);
 
                             db.collection("usuarios")
                                     .document(idUsuario)

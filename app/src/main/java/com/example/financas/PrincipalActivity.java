@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.financas.model.ResumoMensal;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -113,6 +114,12 @@ public class PrincipalActivity extends AppCompatActivity {
         tvSair.setOnClickListener(view -> sair());
         btnAdicionarGasto.setOnClickListener(view -> abrirAdicionarGasto());
         btnAdicionarSalario.setOnClickListener(view -> abrirAdicionarSalario());
+        configurarCliqueCategoria(R.id.itemMoradia, "Moradia");
+        configurarCliqueCategoria(R.id.itemAlimentacao, "Alimentacao");
+        configurarCliqueCategoria(R.id.itemTransporte, "Transporte");
+        configurarCliqueCategoria(R.id.itemCompras, "Compras");
+        configurarCliqueCategoria(R.id.itemLazer, "Lazer");
+        configurarCliqueCategoria(R.id.itemOutros, "Outros");
     }
 
     private void observarSalario() {
@@ -280,6 +287,36 @@ public class PrincipalActivity extends AppCompatActivity {
         tvSalarioMes.setTextColor(saldoDisponivel < 0
                 ? Color.parseColor("#EF4444")
                 : Color.parseColor("#111827"));
+        salvarResumoMensal(saldoDisponivel);
+    }
+
+    private void salvarResumoMensal(double saldoDisponivel) {
+        FirebaseUser usuarioAtual = auth.getCurrentUser();
+
+        if (usuarioAtual == null) {
+            return;
+        }
+
+        Calendar calendario = Calendar.getInstance();
+        int mes = calendario.get(Calendar.MONTH) + 1;
+        int ano = calendario.get(Calendar.YEAR);
+        String mesAno = obterMesAnoAtual();
+
+        ResumoMensal resumo = new ResumoMensal(
+                salarioMesAtual,
+                totalGastosMesAtual,
+                saldoDisponivel,
+                mes,
+                ano,
+                mesAno,
+                new Date()
+        );
+
+        db.collection("usuarios")
+                .document(usuarioAtual.getUid())
+                .collection("resumosMensais")
+                .document(mesAno)
+                .set(resumo);
     }
 
     private String encontrarMaiorCategoria(Map<String, Double> totaisPorCategoria) {
@@ -362,6 +399,18 @@ public class PrincipalActivity extends AppCompatActivity {
 
     private String formatarMoeda(double valor) {
         return formatoMoeda.format(valor);
+    }
+
+    private void configurarCliqueCategoria(int itemId, String categoria) {
+        View item = findViewById(itemId);
+        item.setOnClickListener(view -> abrirGastosCategoria(categoria));
+        item.setClickable(true);
+    }
+
+    private void abrirGastosCategoria(String categoria) {
+        Intent intent = new Intent(PrincipalActivity.this, GastosCategoriaActivity.class);
+        intent.putExtra(GastosCategoriaActivity.EXTRA_CATEGORIA, categoria);
+        startActivity(intent);
     }
 
     private void abrirAdicionarGasto() {
