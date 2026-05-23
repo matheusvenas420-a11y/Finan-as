@@ -37,6 +37,7 @@ public class PrincipalActivity extends AppCompatActivity {
 
     private TextView tvSair;
     private Button btnAdicionarGasto;
+    private Button btnAdicionarSalario;
     private TextView tvGastoMesAtual;
     private TextView tvGastoMesPassado;
     private TextView tvPercentual;
@@ -47,13 +48,18 @@ public class PrincipalActivity extends AppCompatActivity {
     private TextView tvResumoCategorias;
     private ImageView ivMaiorCategoria;
     private TextView tvEstadoVazio;
+    private TextView tvSalarioMes;
+    private TextView tvGastosMesTopbar;
     private View resumoCards;
     private View secaoDetalhesGastos;
 
     private FirebaseAuth auth;
     private FirebaseFirestore db;
     private ListenerRegistration gastosListener;
+    private ListenerRegistration salarioListener;
     private NumberFormat formatoMoeda;
+    private double salarioMesAtual;
+    private double totalGastosMesAtual;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,6 +72,7 @@ public class PrincipalActivity extends AppCompatActivity {
 
         iniciarComponentes();
         configurarCliques();
+        observarSalario();
         observarGastos();
     }
 
@@ -76,11 +83,16 @@ public class PrincipalActivity extends AppCompatActivity {
         if (gastosListener != null) {
             gastosListener.remove();
         }
+
+        if (salarioListener != null) {
+            salarioListener.remove();
+        }
     }
 
     private void iniciarComponentes() {
         tvSair = findViewById(R.id.tvSair);
         btnAdicionarGasto = findViewById(R.id.btnAdicionarGasto);
+        btnAdicionarSalario = findViewById(R.id.btnAdicionarSalario);
         tvGastoMesAtual = findViewById(R.id.tvGastoMesAtual);
         tvGastoMesPassado = findViewById(R.id.tvGastoMesPassado);
         tvPercentual = findViewById(R.id.tvPercentual);
@@ -91,6 +103,8 @@ public class PrincipalActivity extends AppCompatActivity {
         tvResumoCategorias = findViewById(R.id.tvResumoCategorias);
         ivMaiorCategoria = findViewById(R.id.ivMaiorCategoria);
         tvEstadoVazio = findViewById(R.id.tvEstadoVazio);
+        tvSalarioMes = findViewById(R.id.tvSalarioMes);
+        tvGastosMesTopbar = findViewById(R.id.tvGastosMesTopbar);
         resumoCards = findViewById(R.id.resumoCards);
         secaoDetalhesGastos = findViewById(R.id.secaoDetalhesGastos);
     }
@@ -98,6 +112,32 @@ public class PrincipalActivity extends AppCompatActivity {
     private void configurarCliques() {
         tvSair.setOnClickListener(view -> sair());
         btnAdicionarGasto.setOnClickListener(view -> abrirAdicionarGasto());
+        btnAdicionarSalario.setOnClickListener(view -> abrirAdicionarSalario());
+    }
+
+    private void observarSalario() {
+        FirebaseUser usuarioAtual = auth.getCurrentUser();
+
+        if (usuarioAtual == null) {
+            voltarParaLogin();
+            return;
+        }
+
+        salarioListener = db.collection("usuarios")
+                .document(usuarioAtual.getUid())
+                .collection("salarios")
+                .document(obterMesAnoAtual())
+                .addSnapshotListener((snapshot, error) -> {
+                    if (error != null || snapshot == null || !snapshot.exists()) {
+                        salarioMesAtual = 0;
+                        atualizarSaldoDisponivel();
+                        return;
+                    }
+
+                    Double salario = snapshot.getDouble("valor");
+                    salarioMesAtual = salario != null ? salario : 0;
+                    atualizarSaldoDisponivel();
+                });
     }
 
     private void observarGastos() {
@@ -162,6 +202,9 @@ public class PrincipalActivity extends AppCompatActivity {
         tvEstadoVazio.setVisibility(View.VISIBLE);
         resumoCards.setVisibility(View.GONE);
         secaoDetalhesGastos.setVisibility(View.GONE);
+        totalGastosMesAtual = 0;
+        tvGastosMesTopbar.setText("Gastos: " + formatarMoeda(0));
+        atualizarSaldoDisponivel();
     }
 
     private void mostrarEstadoComGastos() {
@@ -197,6 +240,13 @@ public class PrincipalActivity extends AppCompatActivity {
         return calendario.getTime();
     }
 
+    private String obterMesAnoAtual() {
+        Calendar calendario = Calendar.getInstance();
+        int mes = calendario.get(Calendar.MONTH) + 1;
+        int ano = calendario.get(Calendar.YEAR);
+        return String.format(Locale.getDefault(), "%04d-%02d", ano, mes);
+    }
+
     private void atualizarResumo(
             double totalMesAtual,
             double totalMesPassado,
@@ -207,7 +257,10 @@ public class PrincipalActivity extends AppCompatActivity {
         String maiorCategoria = encontrarMaiorCategoria(totaisPorCategoria);
         double valorMaiorCategoria = totaisPorCategoria.get(maiorCategoria);
 
+        totalGastosMesAtual = totalMesAtual;
         tvGastoMesAtual.setText(formatarMoeda(totalMesAtual));
+        tvGastosMesTopbar.setText("Gastos: " + formatarMoeda(totalMesAtual));
+        atualizarSaldoDisponivel();
         tvGastoMesPassado.setText(formatarMoeda(totalMesPassado));
         tvDiferenca.setText(formatarMoeda(diferenca));
         tvPercentual.setText(String.format(Locale.getDefault(), "%.0f%%", percentual));
@@ -219,6 +272,14 @@ public class PrincipalActivity extends AppCompatActivity {
 
         atualizarCorComparacao(diferenca);
         atualizarCategorias(totaisPorCategoria, totalMesAtual);
+    }
+
+    private void atualizarSaldoDisponivel() {
+        double saldoDisponivel = salarioMesAtual - totalGastosMesAtual;
+        tvSalarioMes.setText("Disponivel: " + formatarMoeda(saldoDisponivel));
+        tvSalarioMes.setTextColor(saldoDisponivel < 0
+                ? Color.parseColor("#EF4444")
+                : Color.parseColor("#111827"));
     }
 
     private String encontrarMaiorCategoria(Map<String, Double> totaisPorCategoria) {
@@ -305,6 +366,11 @@ public class PrincipalActivity extends AppCompatActivity {
 
     private void abrirAdicionarGasto() {
         Intent intent = new Intent(PrincipalActivity.this, AdicionarGastoActivity.class);
+        startActivity(intent);
+    }
+
+    private void abrirAdicionarSalario() {
+        Intent intent = new Intent(PrincipalActivity.this, AdicionarSalarioActivity.class);
         startActivity(intent);
     }
 

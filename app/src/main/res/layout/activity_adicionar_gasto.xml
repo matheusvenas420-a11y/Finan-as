@@ -52,11 +52,9 @@
             <ImageView
                 android:layout_width="58dp"
                 android:layout_height="58dp"
-                android:background="@drawable/bg_logo_rounded"
                 android:contentDescription="Logo Fintrack"
-                android:padding="13dp"
                 android:src="@drawable/ic_wallet"
-                app:tint="#FFFFFF" />
+                app:tint="@color/emerald_green" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -170,6 +168,56 @@
                 android:background="@drawable/bg_input"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Forma de pagamento"
+                android:textColor="#374151"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/spFormaPagamento"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_input"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp" />
+
+            <LinearLayout
+                android:id="@+id/containerParcelas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Quantidade de parcelas"
+                    android:textColor="#374151"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/edtParcelas"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bg_input"
+                    android:hint="Ex: 3"
+                    android:inputType="number"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:singleLine="true"
+                    android:textColor="#111827"
+                    android:textColorHint="#9CA3AF"
+                    android:textSize="14sp" />
+            </LinearLayout>
 
             <Button
                 android:id="@+id/btnSalvarGasto"

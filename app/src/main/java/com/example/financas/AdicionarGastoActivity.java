@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import androidx.annotation.Nullable;
@@ -33,10 +35,19 @@ public class AdicionarGastoActivity extends AppCompatActivity {
             "Lazer",
             "Outros"
     };
+    private static final String[] FORMAS_PAGAMENTO = {
+            "Pix",
+            "Dinheiro",
+            "Débito",
+            "Crédito"
+    };
 
     private EditText edtDescricaoGasto;
     private EditText edtValorGasto;
+    private EditText edtParcelas;
     private Spinner spCategoriaGasto;
+    private Spinner spFormaPagamento;
+    private LinearLayout containerParcelas;
     private Button btnSalvarGasto;
     private View btnVoltar;
 
@@ -55,13 +66,17 @@ public class AdicionarGastoActivity extends AppCompatActivity {
         iniciarComponentes();
         configurarMascaraValor();
         configurarCategoria();
+        configurarFormaPagamento();
         configurarCliques();
     }
 
     private void iniciarComponentes() {
         edtDescricaoGasto = findViewById(R.id.edtDescricaoGasto);
         edtValorGasto = findViewById(R.id.edtValorGasto);
+        edtParcelas = findViewById(R.id.edtParcelas);
         spCategoriaGasto = findViewById(R.id.spCategoriaGasto);
+        spFormaPagamento = findViewById(R.id.spFormaPagamento);
+        containerParcelas = findViewById(R.id.containerParcelas);
         btnSalvarGasto = findViewById(R.id.btnSalvarGasto);
         btnVoltar = findViewById(R.id.btnVoltar);
     }
@@ -74,6 +89,32 @@ public class AdicionarGastoActivity extends AppCompatActivity {
         );
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spCategoriaGasto.setAdapter(adapter);
+    }
+
+    private void configurarFormaPagamento() {
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_spinner_item,
+                FORMAS_PAGAMENTO
+        );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spFormaPagamento.setAdapter(adapter);
+        spFormaPagamento.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                boolean pagamentoCredito = "Crédito".equals(FORMAS_PAGAMENTO[position]);
+                containerParcelas.setVisibility(pagamentoCredito ? View.VISIBLE : View.GONE);
+
+                if (!pagamentoCredito) {
+                    edtParcelas.setText("");
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                containerParcelas.setVisibility(View.GONE);
+            }
+        });
     }
 
     private void configurarMascaraValor() {
@@ -128,6 +169,8 @@ public class AdicionarGastoActivity extends AppCompatActivity {
         String descricao = edtDescricaoGasto.getText().toString().trim();
         String valorTexto = edtValorGasto.getText().toString().trim();
         String categoria = spCategoriaGasto.getSelectedItem().toString();
+        String formaPagamento = spFormaPagamento.getSelectedItem().toString();
+        int parcelas = obterParcelas(formaPagamento);
 
         if (descricao.isEmpty() || valorTexto.isEmpty()) {
             mostrarMensagem("Preencha todos os campos");
@@ -138,6 +181,11 @@ public class AdicionarGastoActivity extends AppCompatActivity {
 
         if (valor <= 0) {
             mostrarMensagem("Informe um valor valido");
+            return;
+        }
+
+        if ("Crédito".equals(formaPagamento) && parcelas <= 0) {
+            mostrarMensagem("Informe a quantidade de parcelas");
             return;
         }
 
@@ -152,6 +200,8 @@ public class AdicionarGastoActivity extends AppCompatActivity {
         gasto.put("descricao", descricao);
         gasto.put("valor", valor);
         gasto.put("categoria", categoria);
+        gasto.put("formaPagamento", formaPagamento);
+        gasto.put("parcelas", parcelas);
         gasto.put("data", dataAtual);
         gasto.put("mes", mes);
         gasto.put("ano", ano);
@@ -177,6 +227,24 @@ public class AdicionarGastoActivity extends AppCompatActivity {
             }
 
             return Long.parseLong(apenasDigitos) / 100.0;
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+    }
+
+    private int obterParcelas(String formaPagamento) {
+        if (!"Crédito".equals(formaPagamento)) {
+            return 1;
+        }
+
+        try {
+            String textoParcelas = edtParcelas.getText().toString().trim();
+
+            if (textoParcelas.isEmpty()) {
+                return 0;
+            }
+
+            return Integer.parseInt(textoParcelas);
         } catch (NumberFormatException e) {
             return 0;
         }

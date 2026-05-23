@@ -21,11 +21,9 @@
         <ImageView
             android:layout_width="36dp"
             android:layout_height="36dp"
-            android:background="@drawable/bg_logo_rounded"
             android:contentDescription="Logo"
-            android:padding="8dp"
             android:src="@drawable/ic_wallet"
-            app:tint="#FFFFFF" />
+            app:tint="@color/emerald_green" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -41,13 +39,31 @@
                 android:textColor="#111827"
                 android:textSize="15sp"
                 android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="14dp"
+            android:gravity="end"
+            android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tvSalarioMes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Painel do casal"
+                android:text="Disponivel: R$ 0,00"
+                android:textColor="#111827"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvGastosMesTopbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Gastos: R$ 0,00"
                 android:textColor="#6B7280"
-                android:textSize="12sp" />
+                android:textSize="11sp" />
         </LinearLayout>
 
         <ImageView
@@ -100,17 +116,38 @@
                 android:textColor="#6B7280"
                 android:textSize="14sp" />
 
-            <Button
-                android:id="@+id/btnAdicionarGasto"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
-                android:backgroundTint="@color/emerald_green"
-                android:text="Adicionar gasto"
-                android:textAllCaps="false"
-                android:textColor="#FFFFFF"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnAdicionarGasto"
+                    android:layout_width="0dp"
+                    android:layout_height="52dp"
+                    android:layout_marginEnd="6dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/emerald_green"
+                    android:text="Adicionar gasto"
+                    android:textAllCaps="false"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/btnAdicionarSalario"
+                    android:layout_width="0dp"
+                    android:layout_height="52dp"
+                    android:layout_marginStart="6dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/emerald_green"
+                    android:text="Adicionar salario"
+                    android:textAllCaps="false"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/tvEstadoVazio"
