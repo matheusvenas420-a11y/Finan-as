@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Financas">
+        <activity android:name=".AdicionarGastoActivity"/>
         <activity android:name=".CadastroActivity"/>
         <activity android:name=".HomeActivity"/>
         <activity android:name=".PrincipalActivity"/>

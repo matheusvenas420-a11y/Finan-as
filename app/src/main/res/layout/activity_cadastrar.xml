@@ -17,18 +17,30 @@
         android:paddingEnd="20dp"
         android:paddingBottom="32dp">
 
-        <Button
+        <LinearLayout
             android:id="@+id/btnVoltar"
-            android:layout_width="112dp"
+            android:layout_width="wrap_content"
             android:layout_height="44dp"
-            android:background="@drawable/bg_button_green"
-            android:backgroundTint="@null"
+            android:gravity="center_vertical"
             android:onClick="voltar"
-            android:text="Voltar"
-            android:textAllCaps="false"
-            android:textColor="#FFFFFF"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:orientation="horizontal"
+            android:paddingEnd="8dp">
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_marginEnd="4dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_arrow_back"
+                app:tint="#6B7280" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Voltar"
+                android:textColor="#6B7280"
+                android:textSize="14sp" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -199,8 +211,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
                 android:layout_marginTop="24dp"
-                android:background="@drawable/bg_button_green"
-                android:backgroundTint="@null"
+                android:backgroundTint="@color/emerald_green"
                 android:onClick="cadastrar"
                 android:text="Cadastrar"
                 android:textAllCaps="false"
