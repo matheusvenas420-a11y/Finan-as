@@ -23,6 +23,7 @@
         <activity android:name=".AdicionarGastoActivity"/>
         <activity android:name=".AdicionarSalarioActivity"/>
         <activity android:name=".GastosCategoriaActivity"/>
+        <activity android:name=".RecuperarSenhaActivity"/>
         <activity android:name=".CadastroActivity"/>
         <activity android:name=".HomeActivity"/>
         <activity android:name=".PrincipalActivity"/>

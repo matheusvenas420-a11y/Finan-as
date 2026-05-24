@@ -94,4 +94,17 @@ public class MainActivity extends AppCompatActivity {
         startActivity(i2);
         finish();
     }
+
+    public void esqueciSenha(View v) {
+        Intent intent = new Intent(MainActivity.this, RecuperarSenhaActivity.class);
+        intent.putExtra("email", email.getText().toString().trim());
+        startActivity(intent);
+    }
+
+    private void mostrarMensagem(View v, String mensagem) {
+        Snackbar snac = Snackbar.make(v, mensagem, Snackbar.LENGTH_SHORT);
+        snac.setBackgroundTint(Color.BLACK);
+        snac.setTextColor(Color.WHITE);
+        snac.show();
+    }
 }
